@@ -1,11 +1,10 @@
 
 const endpoint = "https://pimenta.cognitiveservices.azure.com"
 const key = "0d9c4b7fb94c4e29b18aae5729dedd13";
-const imageUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/celebrities.jpg"
-import { computerVision } from "../script/script.js"; 
 
 
-fetch(`${endpoint}/vision/v3.1/analyze?visualFeatures=Tags&language=en`, {
+function imagemAnalise(imageUrl) {
+  fetch(`${endpoint}/vision/v3.1/analyze?visualFeatures=Tags&language=en`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -20,12 +19,19 @@ fetch(`${endpoint}/vision/v3.1/analyze?visualFeatures=Tags&language=en`, {
     return response.json();
   })
   .then(data => {
-    console.log('Tags:', data.tags);
-    const tagsElement = document.getElementById('tags');
+    const tagsElement = document.querySelector('.tags');
     tagsElement.innerHTML = data.tags.map(tag => `<li>${tag.name} (${tag.confidence.toFixed(2)})</li>`).join('');
   })
   .catch(error => {
    
     console.error('Erro:', error);
   });
+  
+}
+
+imagemAnalise("https://armazenandohoje.blob.core.windows.net/contentorimg/unomillinho.jpg")
+
+imagemAnalise("https://armazenandohoje.blob.core.windows.net/contentorimg/hisokinha.jpg")
+
+
 
